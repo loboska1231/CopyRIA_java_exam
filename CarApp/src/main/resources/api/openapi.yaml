@@ -1,0 +1,141 @@
+openapi: "3.1.0"
+info:
+  title: "CopyRIA API"
+  description: "This is a demo specification of Car Service"
+  version: "1.0.0"
+servers:
+  - url: "https://localhost:8080"
+
+security:
+  - BearerAuth: [ ]
+paths:
+
+  /api/v1/cars:
+    get:
+      tags:
+        - Car
+      summary: "GET cars"
+      operationId: "getCars"
+      parameters:
+        - name: "yearAfter"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+        - name: "yearBefore"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int32"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CarResponse"
+    post:
+      tags:
+        - Car
+      summary: "POST cars"
+      operationId: "postCar"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateCar"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarResponse"
+        "400":
+          description: "bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: "forbidden"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/v1/cars/{id}:
+
+    delete:
+      tags:
+        - Car
+      summary: "DELETE cars/{id}"
+      operationId: "deleteCar"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateCar:
+      type: object
+      properties:
+        producer:
+          type: string
+          minLength: 3
+          maxLength: 30
+        model:
+          type: string
+          minLength: 1
+          maxLength: 40
+        year:
+          type: number
+          format: int32
+          minimum: 1896
+          exclusiveMinimum: true
+          maximum: 2025
+
+    CarResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        producer:
+          type: string
+        model:
+          type: string
+        year:
+          type: number
+          format: int32
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        details:
+          type: object
+          additionalProperties:
+            type: string
+      required:
+        - message
+        - timestamp
+        - details

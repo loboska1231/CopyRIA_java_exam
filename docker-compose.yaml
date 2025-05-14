@@ -1,0 +1,4 @@
+
+include:
+  - path: ./CarApp/docker-compose.yaml
+  - path: ./OrderApp/docker-compose.yaml
