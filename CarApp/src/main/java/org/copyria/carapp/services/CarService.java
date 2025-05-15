@@ -1,6 +1,8 @@
 package org.copyria.carapp.services;
 
 import lombok.RequiredArgsConstructor;
+import org.copyria.carapp.api.event.model.CarDeletedEventPayload;
+import org.copyria.carapp.api.event.producer.ICarEventsProducer;
 import org.copyria.carapp.api.rest.model.CarResponseDto;
 import org.copyria.carapp.api.rest.model.CreateCarDto;
 import org.copyria.carapp.mapper.CarMapper;
@@ -15,7 +17,7 @@ import java.util.List;
 public class CarService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
-
+    private final ICarEventsProducer carEventsProducer;
     public List<CarResponseDto> getCars(Integer yearAfter, Integer yearBefore){
         List<Car> cars;
         if(yearAfter != null && yearBefore != null){
@@ -39,7 +41,12 @@ public class CarService {
     }
     public void deleteCar(String id){
         carRepository.deleteById(id);
-
+        CarDeletedEventPayload eventPayload = new CarDeletedEventPayload().withCarId(id);
+        carEventsProducer.onCarDeletedEvent(eventPayload);
         //event to cloud-> orderService order : status=Cancelled
+    }
+
+    public CarResponseDto getCar(String id) {
+        return carMapper.toCarResponseDto(carRepository.findById(id).get());
     }
 }

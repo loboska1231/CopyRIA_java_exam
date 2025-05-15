@@ -37,14 +37,14 @@
         <openapi-spec-location>src/main/resources/api/openapi.yaml</openapi-spec-location>
         <api-package>org.copyria.orderapp.api.rest</api-package>
 
-        <product-service-open-api-spec-location>
-            /CarService/src/main/resources/api/openapi.yaml
-        </product-service-open-api-spec-location>
-        <product-service.api-package>org.copyria.orderapp.client.rest</product-service.api-package>
+        <car-service-open-api-spec-location>
+            ../CarApp/src/main/resources/api/openapi.yaml
+        </car-service-open-api-spec-location>
+        <api-package>org.copyria.orderapp.client.rest</api-package>
 
         <zenwave.version>1.7.1</zenwave.version>
         <event-api-package>org.copyria.orderapp.api.event</event-api-package>
-        <asyncapi-spec-file>/CarService/src/main/resources/api/asyncapi.yaml</asyncapi-spec-file>
+        <asyncapi-spec-file>../CarApp/src/main/resources/api/asyncapi.yaml</asyncapi-spec-file>
     </properties>
 
     <dependencyManagement>
@@ -199,12 +199,12 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
 
-                            <typeMappings>
-                                number=BigDecimal
-                            </typeMappings>
-                            <importMappings>
-                                BigDecimal=java.math.BigDecimal
-                            </importMappings>
+<!--                            <typeMappings>-->
+<!--                                number=BigDecimal-->
+<!--                            </typeMappings>-->
+<!--                            <importMappings>-->
+<!--                                BigDecimal=java.math.BigDecimal-->
+<!--                            </importMappings>-->
 
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
@@ -223,7 +223,7 @@
                     </execution>
 
                     <execution>
-                        <id>generate-product-api-client</id>
+                        <id>generate-car-api-client</id>
 
                         <goals>
                             <goal>generate</goal>
@@ -233,7 +233,7 @@
                             <generatorName>java</generatorName>
                             <library>resttemplate</library>
 
-                            <inputSpec>${product-service-open-api-spec-location}</inputSpec>
+                            <inputSpec>${car-service-open-api-spec-location}</inputSpec>
 
                             <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
                             <generateApis>true</generateApis>
@@ -245,8 +245,8 @@
                             <skipValidateSpec>true</skipValidateSpec>
                             <generateSupportingFiles>true</generateSupportingFiles>
                             <output>${project.build.directory}/generated-sources</output>
-                            <modelPackage>${product-service.api-package}.model</modelPackage>
-                            <apiPackage>${product-service.api-package}.api</apiPackage>
+                            <modelPackage>${api-package}.model</modelPackage>
+                            <apiPackage>${api-package}.api</apiPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
 
                             <configOptions>
@@ -299,7 +299,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>generate-asyncapi-producer</id>
+                        <id>generate-asyncapi-consumer</id>
                         <phase>generate-sources</phase>
                         <goals>
                             <goal>generate</goal>
@@ -308,7 +308,7 @@
                             <generatorName>spring-cloud-streams3</generatorName>
                             <inputSpec>${asyncapi-spec-file}</inputSpec>
                             <configOptions>
-                                <operationIds>onProductDeletedEvent</operationIds>
+                                <operationIds>onCarDeletedEvent</operationIds>
                                 <role>client</role>
                                 <style>imperative</style>
                                 <apiPackage>${event-api-package}.consumer</apiPackage>

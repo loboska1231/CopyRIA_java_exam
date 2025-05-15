@@ -1,0 +1,253 @@
+openapi: 3.0.1
+
+info:
+  title: "CopyRIA API"
+  description: "CopyRIA API"
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8081
+security:
+  - BearerAuth: [ ]
+  - OAuth2: [ ]
+paths:
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: "GET orders"
+      operationId: "getOrders"
+      parameters:
+        - name: "city"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "region"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "minPrice"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+        - name: "maxPrice"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ResponseOrder"
+    post:
+      tags:
+        - Orders
+      summary: "POST orders"
+      operationId: "postOrder"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOrder"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseOrder"
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      summary: "GET orders/{id}"
+      operationId: "getOrder"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseOrder"
+    delete:
+      tags:
+        - Orders
+      summary: "DELETE orders/{id}"
+      operationId: "deleteOrder"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      responses:
+        "200":
+          description: "no content"
+    patch:
+      tags:
+        - Orders
+      summary: "PATCH orders/{id}"
+      operationId: "updateOrder"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "integer"
+            format: "int64"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOrder"
+
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseOrder"
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    OAuth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://localhost:9090/realms/owu-ecommerce/protocol/openid-connect/auth
+          scopes:
+            offline_access: offline access
+  schemas:
+    ResponseOrder:
+      type: object
+      properties:
+        city:
+          type: string
+        region:
+          type: string
+        status:
+          type: string
+        owner_email:
+          type: string
+        price:
+          type: integer
+          format: int64
+        currency:
+          type: string
+        car:
+          type: object
+          properties:
+            producer:
+              type: string
+            model:
+              type: string
+            year:
+              type: number
+              format: int32
+    CreateOrder:
+      type: object
+      properties:
+        city:
+          type: string
+          minLength: 1
+          maxLength: 70
+        region:
+          type: string
+          minLength: 1
+          maxLength: 70
+        ownerEmail:
+          type: string
+          minLength: 6
+          maxLength: 70
+        price:
+          type: integer
+          format: int64
+          minimum: 0
+        currency:
+          type: string
+          enum:
+            - EUR
+            - USD
+            - UAH
+        car:
+          type: object
+          properties:
+            producer:
+              type: string
+              minLength: 3
+              maxLength: 70
+            model:
+              type: string
+              minLength: 1
+              maxLength: 70
+            year:
+              type: number
+              format: int32
+              minimum: 1896
+              maximum: 2025
+          required:
+            - producer
+            - model
+            - year
+      required:
+        - city
+        - region
+        - owner_email
+        - price
+        - currency
+        - car
+
+    UpdateOrder:
+      type: object
+      properties:
+        city:
+          type: string
+          minLength: 1
+          maxLength: 70
+        region:
+          type: string
+          minLength: 1
+          maxLength: 70
+        owner_email:
+          type: string
+          minLength: 6
+          maxLength: 70
+        price:
+          type: integer
+          format: int64
+          minimum: 0
+        currency:
+          type: string
+          enum:
+            - EUR
+            - USD
+            - UAH
+      required:
+        - city
+        - region
+        - owner_email
+        - price
+        - currency

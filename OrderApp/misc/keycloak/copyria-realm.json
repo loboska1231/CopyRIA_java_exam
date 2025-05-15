@@ -43,37 +43,6 @@
   },
   "users": [
     {
-      "id": "61e80165-d55c-486e-ad15-e7f83986eda7",
-      "username": "adam.smith.supplier",
-      "firstName": "Adam",
-      "lastName": "Smith",
-      "email": "adam.smith.supplier@ecommerce.owu.com.ua",
-      "emailVerified": false,
-      "enabled": true,
-      "totp": false,
-      "credentials": [
-        {
-          "id": "bb0fe68d-20e4-4d66-8b30-24d0ae6bb950",
-          "type": "password",
-          "value": "supplier"
-        }
-      ],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "SUPPLY_MANAGER",
-        "USER"
-      ],
-      "notBefore": 0,
-      "groups": [],
-      "attributes": {
-        "user_assigned_shop_ids": [
-          "1",
-          "2"
-        ]
-      }
-    },
-    {
       "id": "61e80165-d55c-486e-ad15-e7f83986eda8",
       "username": "borya.adm",
       "firstName": "borya",
@@ -102,39 +71,6 @@
         "user_assigned_shop_ids": [
           "1",
           "2"
-        ]
-      }
-    },
-    {
-      "id": "e5c8f449-8b61-4477-a109-977746acb082",
-      "username": "john.smith.manager",
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith.manager@ecommerce.owu.com.ua",
-      "emailVerified": false,
-      "enabled": true,
-      "totp": false,
-      "credentials": [
-        {
-          "id": "a0163918-daad-48be-beff-df738edd47ae",
-          "type": "password",
-          "value": "manager"
-        }
-      ],
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "SHOP_MANAGER",
-        "USER"
-      ],
-      "notBefore": 0,
-      "groups": [],
-      "attributes": {
-        "user_assigned_shop_ids": [
-          "1",
-          "2",
-          "3",
-          "4"
         ]
       }
     },

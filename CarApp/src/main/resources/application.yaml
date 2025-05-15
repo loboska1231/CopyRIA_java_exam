@@ -6,8 +6,24 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: "http://localhost:9090/realms/copyria"
-    data:
-      mongodb:
-        uri: mongodb://localhost:27017/product-db
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/carDb
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: true
+
+      bindings:
+        on-car-deleted-event-out-0:
+          destination: copyria.car.event.v1.car-deleted-events
+
+app:
+  apis:
+    car-service:
+      base-url: "http://localhost:8081/"
 server:
   port: 8080

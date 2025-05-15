@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: "1.0.0"
+      author: borya
+      changes:
+        - createTable:
+            tableName: orders
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: orders_pk
+                  name: id
+                  type: BIGINT
+
+              - column:
+                  name: car_id
+                  type: VARCHAR(255)
+              - column:
+                  name: price
+                  type: BIGINT
+              - column:
+                  name: currency
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: region
+                  type: VARCHAR(255)
+              - column:
+                  name: status
+                  type: VARCHAR(255)
+              - column:
+                  name: owner_email
+                  type: VARCHAR(255)
+

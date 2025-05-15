@@ -2,39 +2,54 @@ spring:
   application:
     name: OrderApp
   datasource:
-    url: jdbc:postgresql://localhost:5432/xxx
+    url: jdbc:postgresql://localhost:5432/orderDb
     username: postgres
     password: postgres
-    jpa:
-      hibernate:
-        ddl-auto: none
-      show-sql: true
-      properties:
-        hibernate.format_sql: true
-    jackson:
-      serialization:
-        FAIL_ON_EMPTY_BEANS: false
-        WRITE-DATES-AS-TIMESTAMPS: false
-    liquibase:
-      enabled: true
-    security:
-      oauth2:
-        client:
-          provider:
-            keycloak:
-              token-uri: "http://localhost:9090/realms/copyria/protocol/openid-connect/token"
-          registration:
-            order-service-client:
-              authorization-grant-type: client_credentials
-              client-id: "order-service-client"
-              client-secret: "EGaAO6ennRN5vc5H9nrMCQFF4qU8f967PCCCHs1ojxzB2cmxXhR2DoRTp4qqwcSY"
-              provider: keycloak
-        resourceserver:
-          jwt:
-            issuer-uri: "http://localhost:9090/realms/copyria"
-  app:
-    apis:
-      product-service:
-        base-url: "http://localhost:8080/"
-  server:
-    port: 8081
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      WRITE-DATES-AS-TIMESTAMPS: false
+  liquibase:
+    enabled: true
+  security:
+    oauth2:
+      client:
+        provider:
+           keycloak:
+            token-uri: "http://localhost:9090/realms/copyria/protocol/openid-connect/token"
+        registration:
+          order-service-client:
+            authorization-grant-type: client_credentials
+            client-id: "order-service-client"
+            client-secret: "EGaAO6ennRN5vc5H9nrMCQFF4qU8f967PCCCHs1ojxzB2cmxXhR2DoRTp4qqwcSY"
+            provider: keycloak
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9090/realms/copyria"
+  cloud:
+    stream:
+      default-binder: kafka
+      kafka:
+        binder:
+          brokers: localhost:9092
+          auto-create-topics: true
+      function:
+        definition: on-car-deleted-event
+      bindings:
+        on-car-deleted-event-in-0:
+          destination: copyria.car.event.v1.car-deleted-events
+          group: order-service
+
+
+app:
+  apis:
+    car-service:
+      base-url: "http://localhost:8080/"
+server:
+  port: 8081

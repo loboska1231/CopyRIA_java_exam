@@ -68,7 +68,24 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
   /api/v1/cars/{id}:
-
+    get:
+      tags:
+        - Car
+      summary: "GET cars/{id}"
+      operationId: "getCar"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarResponse"
     delete:
       tags:
         - Car

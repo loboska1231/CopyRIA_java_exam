@@ -24,6 +24,11 @@ public class CarController implements CarApi {
     }
 
     @Override
+    public ResponseEntity<CarResponseDto> getCar(String id) {
+        return ResponseEntity.ok(carService.getCar(id));
+    }
+
+    @Override
     public ResponseEntity<List<CarResponseDto>> getCars(Integer yearAfter, Integer yearBefore) {
         return ResponseEntity.ok(carService.getCars(yearAfter,yearBefore));
     }

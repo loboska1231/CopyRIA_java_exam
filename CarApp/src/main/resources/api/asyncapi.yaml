@@ -1,0 +1,47 @@
+asyncapi: 3.0.0
+info:
+  title: Car DeletedEvents API
+  version: 1.0.0
+  description: |-
+    API for describing car events
+defaultContentType: application/json
+servers:
+  local-connections:
+    host: localhost:9092
+    protocol: kafka
+    description: Local Kafka broker
+channels:
+  carDeletedEvents:
+    address: copyria.car.event.v1.car-deleted-events
+    messages:
+      carDeleted:
+        $ref: '#/components/messages/carDeleted'
+    description: The topic on which car deleted events may be produced and consumed.
+operations:
+  onCarDeletedEvent:
+    action: send
+    tags:
+      - name: Car
+    channel:
+      $ref: '#/channels/carDeletedEvents'
+    summary: >-
+      Inform about car deletion
+    messages:
+      - $ref: '#/channels/carDeletedEvents/messages/carDeleted'
+components:
+  messages:
+    carDeleted:
+      name: carDeletedMessage
+      title: Car deleted message
+      summary: >-
+        Inform about car deletion
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CarDeletedEventPayload'
+  schemas:
+    CarDeletedEventPayload:
+      type: object
+      properties:
+        carId:
+          type: string
+          description: Deleted car ID
