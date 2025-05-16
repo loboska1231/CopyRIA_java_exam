@@ -13,6 +13,15 @@
         "attributes": {}
       },
       {
+        "id": "a1f5d8e2-1234-4b6a-9cde-111111222222",
+        "name": "PREMIUM",
+        "description": " Premium – може ",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "62c2979b-a0d1-47dc-843f-629145e2f33a",
+        "attributes": {}
+      },
+      {
         "id": "b2e6c9f3-2345-4c7b-8def-222222222222",
         "name": "SELLER",
         "description": "Продавець – може створювати та редагувати власні оголошення",
@@ -63,6 +72,69 @@
         "MANAGER",
         "ADMIN",
         "SELLER",
+        "BUYER",
+        "PREMIUM"
+      ],
+      "notBefore": 0,
+      "groups": [],
+      "attributes": {
+        "user_assigned_shop_ids": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "id": "61e80165-d55c-486e-ad15-e7f83986eda8",
+      "username": "borya.manager",
+      "firstName": "borya",
+      "lastName": "sushkov",
+      "email": "manager@gmail.com",
+      "enabled": true,
+      "totp": false,
+      "credentials": [
+        {
+          "id": "bb0fe68d-20e4-4d66-8b30-24d0ae6bb951",
+          "type": "password",
+          "value": "manager"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "MANAGER",
+
+        "SELLER",
+        "BUYER",
+        "PREMIUM"
+      ],
+      "notBefore": 0,
+      "groups": [],
+      "attributes": {
+        "user_assigned_shop_ids": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    {
+      "id": "61e80165-d55c-486e-ad15-e7f83986eda9",
+      "username": "borya",
+      "firstName": "borya",
+      "lastName": "sushk",
+      "email": "suskovboris9@gmail.com",
+      "enabled": true,
+      "totp": false,
+      "credentials": [
+        {
+          "id": "bb0fe68d-20e4-4d66-8b30-24d0ae6bb952",
+          "type": "password",
+          "value": "adm"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
         "BUYER"
       ],
       "notBefore": 0,

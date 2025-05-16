@@ -31,14 +31,23 @@ paths:
           in: "query"
           required: false
           schema:
-            type: "integer"
-            format: "int64"
+            type: number
+
         - name: "maxPrice"
           in: "query"
           required: false
           schema:
-            type: "integer"
-            format: "int64"
+            type: number
+
+        - name: "currency"
+          in: "query"
+          required: false
+          schema:
+            type: string
+            enum:
+              - USD
+              - EUR
+              - UAH
       responses:
         "200":
           description: "OK"
@@ -77,15 +86,21 @@ paths:
           in: "path"
           required: true
           schema:
-            type: "integer"
-            format: "int64"
+            type: integer
+            format: int64
+        - name: "curr"
+          in: "query"
+          required: false
+          schema:
+            type: string
+
       responses:
         "200":
           description: "OK"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ResponseOrder"
+                $ref: "#/components/schemas/ResponseOrderPremium"
     delete:
       tags:
         - Orders
@@ -96,8 +111,9 @@ paths:
           in: "path"
           required: true
           schema:
-            type: "integer"
-            format: "int64"
+            type: integer
+            format: int64
+
       responses:
         "200":
           description: "no content"
@@ -111,8 +127,9 @@ paths:
           in: "path"
           required: true
           schema:
-            type: "integer"
-            format: "int64"
+            type: integer
+            format: int64
+
       requestBody:
         required: true
         content:
@@ -137,10 +154,29 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: http://localhost:9090/realms/owu-ecommerce/protocol/openid-connect/auth
+          authorizationUrl: http://localhost:9090/realms/copyria/protocol/openid-connect/auth
           scopes:
             offline_access: offline access
   schemas:
+    ResponseOrderPremium:
+      allOf:
+        - $ref: "#/components/schemas/ResponseOrder"
+        - type: object
+          properties:
+            viewCount:
+              type: integer
+            viewsToday:
+              type: integer
+            viewsWeek:
+              type: integer
+            viewsMonth:
+              type: integer
+            avgPriceRegion:
+              type: number
+            avgPriceCity:
+              type: number
+            avgPriceCountry:
+              type: number
     ResponseOrder:
       type: object
       properties:
@@ -153,8 +189,7 @@ components:
         owner_email:
           type: string
         price:
-          type: integer
-          format: int64
+          type: number
         currency:
           type: string
         car:
@@ -178,13 +213,12 @@ components:
           type: string
           minLength: 1
           maxLength: 70
-        ownerEmail:
+        owner_email:
           type: string
           minLength: 6
           maxLength: 70
         price:
-          type: integer
-          format: int64
+          type: number
           minimum: 0
         currency:
           type: string
@@ -236,8 +270,7 @@ components:
           minLength: 6
           maxLength: 70
         price:
-          type: integer
-          format: int64
+          type: number
           minimum: 0
         currency:
           type: string

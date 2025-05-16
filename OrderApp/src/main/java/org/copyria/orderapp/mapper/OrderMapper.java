@@ -2,37 +2,42 @@ package org.copyria.orderapp.mapper;
 
 
 import org.copyria.orderapp.client.rest.model.*;
+import org.copyria.orderapp.dto.ChangeDto;
+import org.copyria.orderapp.entity.Change;
 import org.copyria.orderapp.entity.OrderEntity;
 import org.copyria.orderapp.enums.Currency;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(componentModel = SPRING)
 public interface OrderMapper {
-    default OrderEntity toEntity(CreateOrderDto order){
-        Currency curr = Currency.fromValue(order.getCurrency().getValue());
-        return OrderEntity.builder()
-                .price(order.getPrice())
+    @Mapping(target = "status", constant = "CREATE")
+    @Mapping(target ="owner_email",source = "ownerEmail")
+    OrderEntity toEntity(CreateOrderDto order);
+    default ResponseOrderPremiumDto toPremium(ResponseOrderDto order){
+        return new  ResponseOrderPremiumDto()
                 .city(order.getCity())
                 .region(order.getRegion())
-                .owner_email(order.getOwnerEmail())
-                .status("ACTIVE")
-                .currency(curr)
-                .build();
-    };
-    default OrderEntity patchOrderEntity(OrderEntity existing, UpdateOrderDto dto){
-        Currency curr = dto.getCurrency() ==null ? existing.getCurrency(): Currency.fromValue(dto.getCurrency().getValue());
-        return OrderEntity.builder()
-                .city(dto.getCity() == null ? existing.getCity() : dto.getCity())
-                .price(dto.getPrice() == null ? existing.getPrice() : dto.getPrice())
-                .region(dto.getRegion() == null ?  existing.getRegion() : dto.getRegion())
-                .owner_email(dto.getOwnerEmail() == null ? existing.getOwner_email() : dto.getOwnerEmail())
-                .status(existing.getStatus())
-                .currency(curr)
-                .build();
-    };
+                .price(order.getPrice())
+                .status(order.getStatus())
+                .car(order.getCar())
+                .ownerEmail(order.getOwnerEmail())
+                .currency(order.getCurrency());
+    }
+    default ResponseOrderPremiumDto toPremiumFromEntity(OrderEntity order){
+        return toPremium(toResponseDto(order));
+    }
+    @Mapping(target ="owner_email",source = "ownerEmail")
+    @Mapping(target = "status", constant = "UPDATED")
+    @Mapping(ignore = true,target = "orderViews")
+    @Mapping(ignore = true,target = "carId")
+    @Mapping(ignore = true,target = "id")
+    OrderEntity patchOrderEntity(@MappingTarget OrderEntity existing, UpdateOrderDto dto);
+    Change toChangeEntity(ChangeDto dto);
+    @Mapping(target ="ownerEmail",source = "owner_email")
     ResponseOrderDto toResponseDto(OrderEntity order);
     CreateCarDto toCarCreateDto(CreateOrderCarDto dto);
     ResponseOrderCarDto toResposeDto(CarResponseDto car);

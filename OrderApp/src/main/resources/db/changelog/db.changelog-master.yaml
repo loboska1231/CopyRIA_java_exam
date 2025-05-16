@@ -4,6 +4,24 @@ databaseChangeLog:
       author: borya
       changes:
         - createTable:
+            tableName: "orderViews"
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: orderViews_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: order_id
+                  type: bigint
+
+              - column:
+                  name: orderDate
+                  type: timestamptz
+        - createTable:
             tableName: orders
             columns:
               - column:
@@ -14,7 +32,6 @@ databaseChangeLog:
                     primaryKeyName: orders_pk
                   name: id
                   type: BIGINT
-
               - column:
                   name: car_id
                   type: VARCHAR(255)
@@ -36,4 +53,55 @@ databaseChangeLog:
               - column:
                   name: owner_email
                   type: VARCHAR(255)
+              - column:
+                  name: orderViews_id
+                  type: bigint
+              - column:
+                  name: edit_times
+                  type: bigint
 
+        - createTable:
+            tableName: change_courses
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: change_courses_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: ccy
+                  type: VARCHAR(4)
+              - column:
+                  name: base_ccy
+                  type: varchar(4)
+              - column:
+                  name: buy
+                  type: VARCHAR(255)
+              - column:
+                  name: sale
+                  type: VARCHAR(255)
+  - changeSet:
+      id: "1.0.3-add-fk-orderViews-order"
+      author: borya
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: orderViews
+            baseColumnNames: order_id
+            constraintName: orderViews_order_fk
+            referencedTableName: orders
+            referencedColumnNames: id
+            onDelete: CASCADE
+  - changeSet:
+      id: "1.0.4-add-fk-orders-orderViews"
+      author: borya
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: orderViews_id
+            constraintName: orders_orderViews_fk
+            referencedTableName: orderViews
+            referencedColumnNames: id
+            onDelete: SET NULL

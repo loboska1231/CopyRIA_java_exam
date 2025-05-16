@@ -112,7 +112,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-kafka</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
@@ -199,12 +202,12 @@
                             <generateApis>true</generateApis>
                             <generateModels>true</generateModels>
 
-<!--                            <typeMappings>-->
-<!--                                number=BigDecimal-->
-<!--                            </typeMappings>-->
-<!--                            <importMappings>-->
-<!--                                BigDecimal=java.math.BigDecimal-->
-<!--                            </importMappings>-->
+                            <typeMappings>
+                                number=Double
+                            </typeMappings>
+                            <importMappings>
+                                Double=java.math.Double
+                            </importMappings>
 
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>

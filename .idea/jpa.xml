@@ -2,7 +2,7 @@
 <project version="4">
   <component name="PersistenceUnitSettings">
     <persistence-units>
-      <persistence-unit moduleName="OrderService" name="entityManagerFactory" framework="JPA" ormUnit="OrderService:entityManagerFactory" defaultDataSourceId="7ce56db0-072b-43d4-9b64-665d5c1b60ae" />
+      <persistence-unit moduleName="OrderService" name="test" framework="JPA" ormUnit="OrderService:entityManagerFactory" defaultDataSourceId="7ce56db0-072b-43d4-9b64-665d5c1b60ae" />
     </persistence-units>
   </component>
 </project>

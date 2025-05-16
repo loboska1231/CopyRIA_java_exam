@@ -48,6 +48,8 @@ spring:
 
 
 app:
+  privat:
+    url: "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5"
   apis:
     car-service:
       base-url: "http://localhost:8080/"
