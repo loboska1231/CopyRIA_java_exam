@@ -177,6 +177,8 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                    <outputDirectory>../backend</outputDirectory>
+                    <finalName>orderApp</finalName>
                 </configuration>
             </plugin>
             <plugin>

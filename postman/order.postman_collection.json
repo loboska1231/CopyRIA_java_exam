@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "4b6c2fad-8eb8-4152-a32c-0a5637dc4a1a",
+		"name": "order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "41632654"
+	},
+	"item": [
+		{
+			"name": "getOrders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"accessTokenUrl": "http://localhost:9090/realms/copyria/protocol/openid-connect/token",
+						"authUrl": "http://localhost:9090/realms/copyria/protocol/openid-connect/auth",
+						"grant_type": "authorization_code_with_pkce",
+						"tokenName": "",
+						"redirect_uri": "https://oauth.pstmn.io/v1/callback",
+						"clientId": "web-client",
+						"useBrowser": false,
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"city\": \"Kamyanske\",\n    \"region\": \"Dnipropetrovsk oblast\",\n    \"price\": 642000,\n    \"currency\": \"UAH\",\n    \"owner_email\": \"teest@gmail.com\",\n    \"car\": {\n        \"producer\": \"toyota\",\n        \"model\": \"land cruizer\",\n        \"year\": 1912\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/orders/"
+			},
+			"response": []
+		},
+		{
+			"name": "getOrder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\":\"test\",\n    \"password\":\"test\",\n    \"role\":\"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/orders/1"
+			},
+			"response": []
+		},
+		{
+			"name": "postOrder",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhc2RAYXNkLmNvbSIsImlhdCI6MTc0NDYzOTExOSwiZXhwIjoxNzQ0NjM5MTM5fQ.f-dBJa4BZR-U0RvMtNKW6rBp0aHP-1_5sP2HVctzrjo"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"city\": \"Kamyanske\",\n    \"region\": \"Dnipropetrovsk oblast\",\n    \"price\": 642000,\n    \"currency\": \"UAH\",\n    \"owner_email\": \"teest@gmail.com\",\n    \"car\": {\n        \"producer\": \"toyota\",\n        \"model\": \"land cruizer\",\n        \"year\": 1912\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteOrder",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"items\": []   \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/orders/1"
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": "http://localhost:8081/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "getOrdersByCurrency",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": {
+			"addTokenTo": "header"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "{base-url}",
+			"value": "localhost:8081",
+			"type": "string"
+		}
+	]
+}
